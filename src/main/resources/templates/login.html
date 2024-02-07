@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/" th:replace="base::layout(~{::section})">
+
+<head>
+
+	<meta charset="UTF-8">
+	<title>Login</title>
+</head>
+
+<body>
+	<section>
+
+		<div class="sidenav">
+			<div class="login-main-text">
+				<h2>SmartContact<br> Login Page</h2>
+				<p>Login or register from here to access.</p>
+			</div>
+		</div>
+		<div class="main">
+			<div class="col-md-6 col-sm-12">
+				<div class="login-form">
+					<form>
+						<div class="form-group mb-3">
+							<label>User Name</label>
+							<input type="text" class="form-control" placeholder="User Name">
+						</div>
+						<div class="form-group mb-3">
+							<label>Password</label>
+							<input type="password" class="form-control" placeholder="Password">
+						</div>
+						<button type="submit" class="btn bg-new">Login</button>
+						<button type="submit" class="btn bg-new" th:href="@{/signup}">Register</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+
+</html>
