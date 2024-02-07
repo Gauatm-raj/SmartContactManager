@@ -5,6 +5,7 @@ import com.smartcontact.model.User;
 import com.smartcontact.repository.UserRepo;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +19,9 @@ public class HomeController {
 
        @Autowired
        UserRepo userRepo;
+
+       @Autowired
+       BCryptPasswordEncoder passwordEncoder;
 
     @RequestMapping("/")
     public String home(Model model){
@@ -37,6 +41,7 @@ public class HomeController {
         try{
             user.setRole("ROLE_Public");
             user.setActive(true);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
 
             User result=this.userRepo.save(user);
             System.out.println("USER"+user);
@@ -65,8 +70,14 @@ public class HomeController {
     }
 
     @RequestMapping("/login")
-    public String login(){
+    public String login(Model model){
+        model.addAttribute("title","Login-Smart Contact Manager");
         return "login";
+    }
+
+    @RequestMapping("/logout")
+    public String logout(){
+        return "logout";
     }
 
 }

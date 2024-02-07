@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-
+@EnableWebSecurity
 public class Myconfig {
 
     @Bean
@@ -36,8 +36,25 @@ public class Myconfig {
     @Bean
    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
        http.authorizeHttpRequests((authorizeHttpRequests)-> authorizeHttpRequests
-               .requestMatchers("/**").permitAll())
-               .formLogin(Customizer.withDefaults());
+                       .requestMatchers("/user/**").hasRole("Public")
+                       .requestMatchers("/**").permitAll()
+
+               ).formLogin(
+                       (formlogin)->
+               formlogin
+                       .usernameParameter("username")
+                       .passwordParameter("password")
+                       .loginPage("/login")
+                       .loginProcessingUrl("/dologin")
+                       .defaultSuccessUrl("/user/index")
+
+                         ).logout((logout) ->
+               logout
+//                       .deleteCookies("remove")
+//                       .invalidateHttpSession(false)
+//                       .logoutUrl("/custom-logout")
+                       .logoutSuccessUrl("/login")
+       );
         return http.build();
 
    }

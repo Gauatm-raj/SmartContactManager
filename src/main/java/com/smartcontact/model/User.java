@@ -27,6 +27,7 @@ public class User {
     private boolean active;
     private String role;
 
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "user")
     private List<Contact> contact =new ArrayList<>();
 
