@@ -40,20 +40,23 @@ public class Myconfig {
                        .requestMatchers("/**").permitAll()
 
                ).formLogin(
+
                        (formlogin)->
-               formlogin
+                        formlogin
                        .usernameParameter("username")
                        .passwordParameter("password")
                        .loginPage("/login")
-                       .loginProcessingUrl("/dologin")
+//                       .loginProcessingUrl("/dologin")
+//                       .failureUrl("/login?failed")
                        .defaultSuccessUrl("/user/index")
 
-                         ).logout((logout) ->
-               logout
-//                       .deleteCookies("remove")
-//                       .invalidateHttpSession(false)
-//                       .logoutUrl("/custom-logout")
-                       .logoutSuccessUrl("/login")
+
+               ).logout((logout)->
+                       logout.deleteCookies("remove")
+                               .invalidateHttpSession(false)
+                               .logoutUrl("/logout")
+                               .logoutSuccessUrl("/login?logout")
+                               .permitAll()
        );
         return http.build();
 

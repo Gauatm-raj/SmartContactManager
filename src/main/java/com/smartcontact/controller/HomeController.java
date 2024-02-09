@@ -3,9 +3,13 @@ package com.smartcontact.controller;
 import com.smartcontact.helper.Message;
 import com.smartcontact.model.User;
 import com.smartcontact.repository.UserRepo;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -75,9 +79,11 @@ public class HomeController {
         return "login";
     }
 
-    @RequestMapping("/logout")
-    public String logout(){
-        return "logout";
-    }
+//    @RequestMapping("/logout")
+//    public String logout(){
+//        return "logout";
+//    }
+
+
 
 }
