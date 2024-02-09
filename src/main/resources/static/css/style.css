@@ -390,4 +390,11 @@ body {
   }
 }
 
+#success_message{ display: none;}
+
+.container1{
+
+
+  margin-left:20%;
+}
 

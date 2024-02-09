@@ -1,5 +1,6 @@
 package com.smartcontact.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -28,6 +29,7 @@ public class User {
     private String role;
 
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "user")
     private List<Contact> contact =new ArrayList<>();
 
@@ -107,18 +109,5 @@ public class User {
         this.contact = contact;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", image='" + image + '\'' +
-                ", about='" + about + '\'' +
-                ", active=" + active +
-                ", role='" + role + '\'' +
-                ", contact=" + contact +
-                '}';
-    }
+
 }
