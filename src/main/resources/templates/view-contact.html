@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/" th:replace="userbase::layout(~{::section})">
+
+<head>
+    <meta charset="UTF-8">
+    <title>About</title>
+</head>
+
+<body>
+<section>
+
+    <div class="card mr-3 ml-3" >
+        <div class="card-body">
+            <h1 class="text-centre">All Contact</h1>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">PhoneNo</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Acction</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="c:${contact}">
+                    <th scope="row" th:text="${c.cId}">1</th>
+                    <td th:text="${c.name}">Mark</td>
+                    <td th:text="${c.phone}">Otto</td>
+                    <td th:text="${c.email}">@mdo</td>
+                    <td>
+                        <button class="btn btn-success btn-sm"> Update</button>
+                    <button class="btn btn-danger btn-sm">Delete</button>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</section>
+</body>
+
+</html>

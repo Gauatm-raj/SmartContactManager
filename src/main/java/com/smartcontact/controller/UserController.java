@@ -2,6 +2,7 @@ package com.smartcontact.controller;
 
 import com.smartcontact.model.Contact;
 import com.smartcontact.model.User;
+import com.smartcontact.repository.ContactRepo;
 import com.smartcontact.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -16,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -23,6 +25,8 @@ public class UserController {
 
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private ContactRepo contactRepo;
 
     @ModelAttribute
     public void add(Model model,Principal principal){
@@ -69,5 +73,14 @@ public class UserController {
             e.printStackTrace();
         }
         return "add-contact";
+    }
+
+    @RequestMapping("/view-contact")
+    public String viewContact(Model m,Principal p){
+        String username=p.getName();
+        User u=this.userRepo.getUserByUsername(username);
+        List<Contact>contact=this.contactRepo.getContactByUserId(u.getId());
+        m.addAttribute("contact",contact);
+        return "view-contact";
     }
 }
