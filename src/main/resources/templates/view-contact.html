@@ -26,17 +26,40 @@
                 <tbody>
                 <tr th:each="c:${contact}">
                     <th scope="row" th:text="${c.cId}">1</th>
-                    <td th:text="${c.name}">Mark</td>
+                    <td >
+                        <img class="my_pp" src="" th:src="@{'/image/'+${c.image}}" alt="img">
+                        <span th:text="${c.name}"></span></td>
                     <td th:text="${c.phone}">Otto</td>
-                    <td th:text="${c.email}">@mdo</td>
+                    <td >
+                        <a href="" th:href="@{'/user/contact/'+${c.cId}}"> <span th:text="${c.email}"></span></a>
+                    </td>
                     <td>
                         <button class="btn btn-success btn-sm"> Update</button>
-                    <button class="btn btn-danger btn-sm">Delete</button>
+                       <button class="btn btn-danger btn-sm">Delete</button>
                     </td>
                 </tr>
 
                 </tbody>
             </table>
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li th:if="${currentPage != 0}" class="page-item">
+                        <a class="page-link" th:href="@{'/user/view-contact/'+${currentPage-1}}" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li th:classappend="${currentPage==i-1?'active':''}" th:each="i:${#numbers.sequence(1,totalPage)}" class="page-item"><a class="page-link" th:href="@{'/user/view-contact/'+${i-1}}" href="#"><span th:text="${i}"></span></a></li>
+
+                    <li th:if="${currentPage+1 != totalPage}" class="page-item">
+                        <a class="page-link" th:href="@{'/user/view-contact/'+${currentPage+1}}" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
 
         </div>
     </div>

@@ -77,9 +77,9 @@ public class Contact {
         return image;
     }
 
-    public void setImage(MultipartFile image) {
+    public void setImage(String image) {
 
-        this.image = image.getOriginalFilename();
+        this.image = image;
     }
 
     public User getUser() {

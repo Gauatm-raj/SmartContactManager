@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/" th:replace="userbase::layout(~{::section})">
+
+<head>
+    <meta charset="UTF-8">
+    <title>About</title>
+</head>
+
+<body>
+<section>
+
+    <div class="card mr-3 ml-3" >
+        <div class="card-body">
+            <div class="container text-center">
+                <img style="height:200px;width:200px" class="my_pp" src="" th:src="@{'/image/'+${contact.image}}" alt="img">
+               <h3 class="mt-3"><span th:text="${contact.name}"></span></h3>
+            </div>
+
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col"><span th:text="${contact.cId}"></span></th>
+
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr >
+                    <th scope="row" >Email</th>
+                    <td >
+                        <span th:text="${contact.email}"></span></td>
+                </tr>
+
+                <tr >
+                    <th scope="row" >Phone Number</th>
+                    <td >
+                        <span th:text="${contact.phone}"></span></td>
+
+                </tr>
+
+                </tbody>
+            </table>
+            <div class="container text-center">
+                <th:block th:text="${contact.detail}"></th:block>
+            </div>
+
+            <div class="container text-center mt-3">
+                <button class="btn btn-success "> Update</button>
+                <button class="btn btn-danger ">Delete</button>
+            </div>
+
+
+        </div>
+    </div>
+
+</section>
+</body>
+
+</html>

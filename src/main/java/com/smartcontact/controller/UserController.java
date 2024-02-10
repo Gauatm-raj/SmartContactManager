@@ -6,6 +6,9 @@ import com.smartcontact.repository.ContactRepo;
 import com.smartcontact.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -58,9 +61,9 @@ public class UserController {
             User user = this.userRepo.getUserByUsername(name);
 
             if(file.isEmpty()){
-
+                contact.setImage("contact.png");
             }else{
-                contact.setImage(file);
+                contact.setImage(file.getOriginalFilename());
                 File savefile=new ClassPathResource("/static/image").getFile();
                 Path path=Paths.get(savefile.getAbsolutePath()+File.separator+file.getOriginalFilename());
                 Files.copy(file.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
@@ -75,12 +78,22 @@ public class UserController {
         return "add-contact";
     }
 
-    @RequestMapping("/view-contact")
-    public String viewContact(Model m,Principal p){
+    @RequestMapping("/view-contact/{page}")
+    public String viewContact(@PathVariable("page") Integer page, Model m,Principal p){
         String username=p.getName();
         User u=this.userRepo.getUserByUsername(username);
-        List<Contact>contact=this.contactRepo.getContactByUserId(u.getId());
+        Pageable pageable= PageRequest.of(page,5);
+        Page<Contact> contact=this.contactRepo.getContactByUserId(u.getId(),pageable);
+        m.addAttribute("currentPage",page);
+        m.addAttribute("totalPage",contact.getTotalPages());
         m.addAttribute("contact",contact);
         return "view-contact";
+    }
+
+    @RequestMapping("/contact/{id}")
+    public String ShowOneContact(@PathVariable("id") Integer id,Model model){
+        Contact contact=this.contactRepo.findById(id).get();
+        model.addAttribute("contact",contact);
+        return "contact-detail";
     }
 }
