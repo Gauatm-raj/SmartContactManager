@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/" th:replace="userbase::layout(~{::section})">
+<html lang="en" xmlns:th="https://www.thymeleaf.org/" th:replace="~{userbase::layout(~{::section})}">
 
 <head>
     <meta charset="UTF-8">
@@ -35,7 +35,7 @@
                     </td>
                     <td>
                         <button class="btn btn-success btn-sm"> Update</button>
-                       <button class="btn btn-danger btn-sm">Delete</button>
+                       <a href="#" th:onclick="|deleteContact(${c.cId})|" class="btn btn-danger btn-sm">Delete</a>
                     </td>
                 </tr>
 
@@ -63,6 +63,8 @@
 
         </div>
     </div>
+
+
 
 </section>
 </body>

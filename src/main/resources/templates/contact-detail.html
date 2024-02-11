@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/" th:replace="userbase::layout(~{::section})">
+<html lang="en" xmlns:th="https://www.thymeleaf.org/" th:replace="~{userbase::layout(~{::section})}">
 
 <head>
     <meta charset="UTF-8">
@@ -9,7 +9,7 @@
 <body>
 <section>
 
-    <div class="card mr-3 ml-3" >
+    <div class="card mr-3 ml-3" th:if="${contact}">
         <div class="card-body">
             <div class="container text-center">
                 <img style="height:200px;width:200px" class="my_pp" src="" th:src="@{'/image/'+${contact.image}}" alt="img">
@@ -48,11 +48,14 @@
 
             <div class="container text-center mt-3">
                 <button class="btn btn-success "> Update</button>
-                <button class="btn btn-danger ">Delete</button>
+                <a href="#" th:onclick="|deleteContact(${contact.cId})|" class="btn btn-danger ">Delete</a>
             </div>
 
 
         </div>
+    </div>
+    <div class="container" th:unless="${contact}">
+        <h1>This Contact not belongs to your list</h1>
     </div>
 
 </section>

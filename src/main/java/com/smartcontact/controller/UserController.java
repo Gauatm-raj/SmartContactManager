@@ -91,9 +91,33 @@ public class UserController {
     }
 
     @RequestMapping("/contact/{id}")
-    public String ShowOneContact(@PathVariable("id") Integer id,Model model){
+    public String ShowOneContact(@PathVariable("id") Integer id,Model model,Principal p){
         Contact contact=this.contactRepo.findById(id).get();
-        model.addAttribute("contact",contact);
+        String username=p.getName();
+        User user=this.userRepo.getUserByUsername(username);
+
+        if(user.getId()==contact.getUser().getId())
+          model.addAttribute("contact",contact);
+
         return "contact-detail";
+    }
+
+    @RequestMapping("/delete/{cid}")
+    public String deleteContact(@PathVariable("cid") Integer cId,Model model,Principal p){
+        Contact c=this.contactRepo.findById(cId).get();
+        System.out.println("C name"+c.getName());
+        System.out.println("contact userId "+c.getUser().getId());
+
+        String username=p.getName();
+        User user=this.userRepo.getUserByUsername(username);
+
+        if(user.getId()==c.getUser().getId()){
+            c.setUser(null);
+            this.contactRepo.deleteById(c.getcId());
+        }
+
+
+
+        return "redirect:/user/view-contact/0";
     }
 }
