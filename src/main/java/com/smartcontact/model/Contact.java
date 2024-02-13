@@ -2,7 +2,7 @@ package com.smartcontact.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.springframework.web.multipart.MultipartFile;
+
 
 
 import java.util.ArrayList;
@@ -78,7 +78,6 @@ public class Contact {
     }
 
     public void setImage(String image) {
-
         this.image = image;
     }
 
@@ -90,5 +89,16 @@ public class Contact {
         this.user = user;
     }
 
-
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "cId=" + cId +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", detail='" + detail + '\'' +
+                ", image='" + image + '\'' +
+                ", user=" + user +
+                '}';
+    }
 }

@@ -20,6 +20,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.util.Base64;
 import java.util.List;
 
 @Controller
@@ -36,7 +37,7 @@ public class UserController {
         String username=principal.getName();
 
         User user=userRepo.getUserByUsername(username);
-        System.out.println(user);
+
         model.addAttribute("user",user);
     }
 
@@ -48,29 +49,35 @@ public class UserController {
 
     @GetMapping("/add-contact")
     public String addContact(Model model){
-        model.addAttribute("tittle","AddContact");
+        model.addAttribute("title","AddContact");
         model.addAttribute("contact",new Contact());
         return "add-contact";
     }
 
     //Contact data
     @PostMapping("/contact-data")
-    public String contactData(@ModelAttribute Contact contact, @RequestParam("image") MultipartFile file, Principal p){
+    public String contactData(@ModelAttribute Contact contact,
+                              @RequestParam("image") MultipartFile image,
+                              Principal p){
         try {
             String name = p.getName();
             User user = this.userRepo.getUserByUsername(name);
 
-            if(file.isEmpty()){
+            if(image.isEmpty()){
                 contact.setImage("contact.png");
             }else{
-                contact.setImage(file.getOriginalFilename());
+
+                contact.setImage(image.getOriginalFilename());
+                System.out.println(image.getOriginalFilename());//print
                 File savefile=new ClassPathResource("/static/image").getFile();
-                Path path=Paths.get(savefile.getAbsolutePath()+File.separator+file.getOriginalFilename());
-                Files.copy(file.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
+                Path path=Paths.get(savefile.getAbsolutePath()+File.separator+image.getOriginalFilename());
+                Files.copy(image.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
             }
             contact.setUser(user);
             user.getContact().add(contact);
+
             this.userRepo.save(user);
+
             System.out.println("DATA" + contact);
         }catch (Exception e){
             e.printStackTrace();
@@ -119,5 +126,51 @@ public class UserController {
 
 
         return "redirect:/user/view-contact/0";
+    }
+
+    @RequestMapping("/update-contact/{cid}")
+    public String updateContact(@PathVariable("cid") Integer cid, Model m){
+        Contact c=this.contactRepo.findById(cid).get();
+        m.addAttribute("title","Update Contact");
+        m.addAttribute("contact",c);
+        return "update-contact";
+    }
+
+    //update
+    @PostMapping("/update-data")
+    public String contactData(@ModelAttribute Contact contact,
+                              @RequestParam("image") MultipartFile file,
+                              Model m,Principal p){
+        try {
+            User user=this.userRepo.getUserByUsername(p.getName());
+            contact.setUser(user);
+            Contact oldC=this.contactRepo.findById(contact.getcId()).get();
+
+            if(file.isEmpty()){
+                    contact.setImage(oldC.getImage());
+            }else{
+                //delete old photo
+
+
+             //update photo
+                File savefile=new ClassPathResource("/static/image").getFile();
+                Path path=Paths.get(savefile.getAbsolutePath()+File.separator+file.getOriginalFilename());
+                Files.copy(file.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
+                contact.setImage(file.getOriginalFilename());
+            }
+
+           this.contactRepo.save(contact);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "redirect:/user/contact/"+contact.getcId();
+    }
+
+
+    @GetMapping("/profile")
+    public String profile(Model m){
+        m.addAttribute("title","profile-page");
+        return "userprofile";
     }
 }

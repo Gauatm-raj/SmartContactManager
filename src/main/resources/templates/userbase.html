@@ -32,7 +32,7 @@
                     <a class="nav-link active" aria-current="page" th:href="@{/user/index}" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" > <span th:text="${user.name}"></span> </a>
+                    <a class="nav-link" href="#" th:href="@{/user/profile}"> <span th:text="${user.name}"></span> </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/login?logout}" href="#">LogOut</a>
@@ -89,12 +89,12 @@
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="#" th:href="@{/user/profile}">
                 <i class="fa-regular fa-user"></i>
                 <span class="link_name">Profile</span>
             </a>
             <ul class="sub-menu blank">
-                <li><a class="link_name" href="#">Profile</a></li>
+                <li><a class="link_name" href="#" >Profile</a></li>
             </ul>
         </li>
 

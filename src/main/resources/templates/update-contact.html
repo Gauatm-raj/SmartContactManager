@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/" th:replace="~{userbase::layout(~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>About</title>
+</head>
+
+<body>
+<section>
+
+    <div class="container1">
+
+        <form class="well form-horizontal"
+              enctype="multipart/form-data"
+              th:object="${contact}"
+              th:action="@{/user/update-data}"
+              action="#"
+              method="post"
+              id="contact_form">
+            <input type="hidden" th:value="${contact.cId}" name="cId">
+            <fieldset>
+
+                <!-- Form Name -->
+                <legend>Update Contact</legend>
+
+                <!-- Text input-->
+
+                <div class="form-group mb-3">
+                    <label class="col-md-4 control-label"><i class="fa-solid fa-file-signature"></i> Name</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input th:value="${contact.name}" name="name" placeholder="Name" class="form-control"  type="text">
+                        </div>
+                    </div>
+                </div>
+                <!-- Text input-->
+
+                <div class="form-group mb-3">
+                    <label class="col-md-4 control-label"><i class="fa-solid fa-phone"></i> Phone NO.</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                            <input th:value="${contact.phone}" name="phone" placeholder="" class="form-control" type="number">
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Text input-->
+                <div class="form-group mb-3">
+                    <label class="col-md-4 control-label"><i class="fa-solid fa-envelope-circle-check"></i> E-Mail</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                            <input th:value="${contact.email}"  name="email" placeholder="E-Mail Address" class="form-control"  type="email">
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="form-group mb-3">
+                    <label class="col-md-4 control-label"> <i class="fa-solid fa-calendar-day"></i> All Description</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                            <textarea th:text="${contact.detail}" class="form-control" name="detail" placeholder="Address,Work..etc"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <img class="my_pp" src="" th:src="@{'/image/'+${contact.image}}" alt="">
+                </div>
+
+                <div class="custom-file">
+                    <input type="file" name="image">
+                </div>
+
+                <!-- Success message -->
+                <div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Thanks for contacting us, we will get back to you shortly.</div>
+
+                <!-- Button -->
+                <div class="form-group mb-3">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-4">
+                        <button class="btn bg-new" >Send </button>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+    </div>
+    </div>
+
+</section>
+</body>
+
+</html>
