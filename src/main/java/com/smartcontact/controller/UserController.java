@@ -57,22 +57,11 @@ public class UserController {
     //Contact data
     @PostMapping("/contact-data")
     public String contactData(@ModelAttribute Contact contact,
-                              @RequestParam("image") MultipartFile image,
+
                               Principal p){
         try {
             String name = p.getName();
             User user = this.userRepo.getUserByUsername(name);
-
-            if(image.isEmpty()){
-                contact.setImage("contact.png");
-            }else{
-
-                contact.setImage(image.getOriginalFilename());
-                System.out.println(image.getOriginalFilename());//print
-                File savefile=new ClassPathResource("/static/image").getFile();
-                Path path=Paths.get(savefile.getAbsolutePath()+File.separator+image.getOriginalFilename());
-                Files.copy(image.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
-            }
             contact.setUser(user);
             user.getContact().add(contact);
 
@@ -112,18 +101,13 @@ public class UserController {
     @RequestMapping("/delete/{cid}")
     public String deleteContact(@PathVariable("cid") Integer cId,Model model,Principal p){
         Contact c=this.contactRepo.findById(cId).get();
-        System.out.println("C name"+c.getName());
-        System.out.println("contact userId "+c.getUser().getId());
+
 
         String username=p.getName();
         User user=this.userRepo.getUserByUsername(username);
 
-        if(user.getId()==c.getUser().getId()){
-            c.setUser(null);
-            this.contactRepo.deleteById(c.getcId());
-        }
-
-
+        user.getContact().remove(c);
+        this.userRepo.save(user);
 
         return "redirect:/user/view-contact/0";
     }
@@ -139,27 +123,12 @@ public class UserController {
     //update
     @PostMapping("/update-data")
     public String contactData(@ModelAttribute Contact contact,
-                              @RequestParam("image") MultipartFile file,
                               Model m,Principal p){
         try {
             User user=this.userRepo.getUserByUsername(p.getName());
             contact.setUser(user);
             Contact oldC=this.contactRepo.findById(contact.getcId()).get();
-
-            if(file.isEmpty()){
-                    contact.setImage(oldC.getImage());
-            }else{
-                //delete old photo
-
-
-             //update photo
-                File savefile=new ClassPathResource("/static/image").getFile();
-                Path path=Paths.get(savefile.getAbsolutePath()+File.separator+file.getOriginalFilename());
-                Files.copy(file.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
-                contact.setImage(file.getOriginalFilename());
-            }
-
-           this.contactRepo.save(contact);
+            this.contactRepo.save(contact);
         }catch (Exception e){
             e.printStackTrace();
         }

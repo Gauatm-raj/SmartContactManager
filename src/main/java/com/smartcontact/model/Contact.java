@@ -23,8 +23,6 @@ public class Contact {
     @Column(length = 1000)
     private String detail;
 
-    private String image;
-
     @JsonIgnore
     @ManyToOne
     private User user;
@@ -73,13 +71,7 @@ public class Contact {
         this.detail = detail;
     }
 
-    public String getImage() {
-        return image;
-    }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     public User getUser() {
         return user;
@@ -89,16 +81,7 @@ public class Contact {
         this.user = user;
     }
 
-    @Override
-    public String toString() {
-        return "Contact{" +
-                "cId=" + cId +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                ", detail='" + detail + '\'' +
-                ", image='" + image + '\'' +
-                ", user=" + user +
-                '}';
-    }
+     public boolean equals(Object obj){
+        return this.cId==((Contact)obj).getcId();
+     }
 }

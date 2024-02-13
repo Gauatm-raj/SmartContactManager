@@ -22,7 +22,7 @@ public class User {
 
     private String email;
     private String password;
-    private String image;
+
     @Column(length = 500)
     private String about;
     private boolean active;
@@ -30,7 +30,7 @@ public class User {
 
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user",orphanRemoval = true)
     private List<Contact> contact =new ArrayList<>();
 
     public User(){
@@ -69,13 +69,7 @@ public class User {
         this.password = password;
     }
 
-    public String getImage() {
-        return image;
-    }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     public String getAbout() {
         return about;
